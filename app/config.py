@@ -17,12 +17,14 @@ CHECKPOINT_PATH = os.path.abspath(os.path.join(os.path.dirname(__file__), '../ch
 
 OUTPUTS_MODELS_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), '../models'))
 
-BATCH_SIZE = 32
+
 EMB_DIM = 200
+
 NB_FILTERS = 100
 FFN_UNITS = 256
 NB_CLASSES = 2
 
 DROPOUT_RATE = 0.2
 
-NB_EPOCHS = 10
+BATCH_SIZE = 32
+NB_EPOCHS = 5
