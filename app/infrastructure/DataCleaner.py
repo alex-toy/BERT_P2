@@ -26,6 +26,7 @@ class CleanData :
         self.path = path
         self.cols = cols
         self.cols_to_keep = cols_to_keep
+        self.tokenizer = self.get_tokenizer()
 
 
 
@@ -81,15 +82,13 @@ class CleanData :
         vocab_file = bert_layer.resolved_object.vocab_file.asset_path.numpy()
         do_lower_case = bert_layer.resolved_object.do_lower_case.numpy()
         tokenizer = FullTokenizer(vocab_file, do_lower_case)
-        print('get_tokenizer')
         return tokenizer
 
 
 
     def get_encode_sentence(self):
-        tokenizer = self.get_tokenizer()
         def encode_sentence(sent):
-            return ["[CLS]"] + tokenizer.tokenize(sent) + ["[SEP]"]
+            return ["[CLS]"] + self.tokenizer.tokenize(sent) + ["[SEP]"]
         print('get_encode_sentence')
         return encode_sentence
 
@@ -104,8 +103,7 @@ class CleanData :
 
 
     def get_ids(self, tokens):
-        tokenizer = self.get_tokenizer()
-        return tokenizer.convert_tokens_to_ids(tokens)
+        return self.tokenizer.convert_tokens_to_ids(tokens)
 
 
 
@@ -120,7 +118,7 @@ class CleanData :
         for tok in tokens:
             seg_ids.append(current_seg_id)
             if tok == "[SEP]":
-                current_seg_id = 1-current_seg_id # convierte los 1 en 0 y vice versa
+                current_seg_id = 1-current_seg_id 
         return seg_ids
 
 
@@ -156,6 +154,7 @@ class CleanData :
 
     def get_train_test_dataset(self) :
         all_batched = self.get_all_batched()
+        sorted_all = self.get_sorted_all()
         NB_BATCHES = math.ceil(len(sorted_all) / cf.BATCH_SIZE)
         NB_BATCHES_TEST = NB_BATCHES // 10
         all_batched.shuffle(NB_BATCHES)
