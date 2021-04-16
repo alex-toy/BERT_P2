@@ -127,6 +127,7 @@ class CleanData :
 
     def get_sorted_all(self) :
         data_labels = self.get_data_labels()
+        data_inputs = self.get_data_inputs()
         data_with_len = [[sent, data_labels[i], len(sent)] for i, sent in enumerate(data_inputs)]
         random.shuffle(data_with_len)
         data_with_len.sort(key=lambda x: x[2])
@@ -134,6 +135,7 @@ class CleanData :
             ([get_ids(sent_lab[0]), get_mask(sent_lab[0]), get_segments(sent_lab[0])], sent_lab[1])
             for sent_lab in data_with_len if sent_lab[2] > 7
         ]
+        print('get_sorted_all')
         return sorted_all
 
 
@@ -151,6 +153,6 @@ if __name__ == "__main__":
 
     sorted_all = cd.get_sorted_all()
 
-    print(test_dataset)
+    print(sorted_all)
 
 
