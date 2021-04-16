@@ -140,6 +140,30 @@ class CleanData :
 
 
 
+    def get_all_dataset(self) :
+        sorted_all = self.get_sorted_all()
+        all_dataset = tf.data.Dataset.from_generator(lambda: sorted_all, output_types=(tf.int32, tf.int32))
+        return all_dataset
+
+
+
+    def get_all_batched(self) :
+        all_dataset = self.get_all_dataset()
+        all_batched = all_dataset.padded_batch(cf.BATCH_SIZE, padded_shapes=((3, None), ()), padding_values=(0, 0))
+        return all_batched
+
+
+    def get_train_test(self) :
+        all_batched = self.get_all_batched()
+        NB_BATCHES = math.ceil(len(sorted_all) / cf.BATCH_SIZE)
+        NB_BATCHES_TEST = NB_BATCHES // 10
+        all_batched.shuffle(NB_BATCHES)
+        test_dataset = all_batched.take(NB_BATCHES_TEST)
+        train_dataset = all_batched.skip(NB_BATCHES_TEST)
+        return test_dataset, train_dataset
+
+
+
 
 
 
