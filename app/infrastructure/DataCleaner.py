@@ -132,7 +132,7 @@ class CleanData :
         random.shuffle(data_with_len)
         data_with_len.sort(key=lambda x: x[2])
         sorted_all = [
-            ([get_ids(sent_lab[0]), get_mask(sent_lab[0]), get_segments(sent_lab[0])], sent_lab[1])
+            ([self.get_ids(sent_lab[0]), self.get_mask(sent_lab[0]), self.get_segments(sent_lab[0])], sent_lab[1])
             for sent_lab in data_with_len if sent_lab[2] > 7
         ]
         print('get_sorted_all')
