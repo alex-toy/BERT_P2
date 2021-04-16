@@ -153,7 +153,8 @@ class CleanData :
         return all_batched
 
 
-    def get_train_test(self) :
+
+    def get_train_test_dataset(self) :
         all_batched = self.get_all_batched()
         NB_BATCHES = math.ceil(len(sorted_all) / cf.BATCH_SIZE)
         NB_BATCHES_TEST = NB_BATCHES // 10
@@ -175,8 +176,8 @@ if __name__ == "__main__":
         cols_to_keep=cf.COLS_TO_KEEP
     )
 
-    sorted_all = cd.get_sorted_all()
+    test_dataset, train_dataset = cd.get_train_test_dataset()
 
-    print(sorted_all)
+    print(next(iter(train_dataset)))
 
 
